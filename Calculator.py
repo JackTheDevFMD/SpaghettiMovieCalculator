@@ -32,16 +32,50 @@ letters = {
 }
 
 baseLetters = 'abcdefghijklmnopqrstuvwxyz'
-movie = "BeeMovie"
+movies = {
+    "The Bee Movie": "BeeMovie",
+    "The IrishMan": "irish",
+    "John Wick (2014)": "JohnWick",
+    "The wolf of Wall Street": "wolf",
+    "The batman": "batman",
+    "Avatar (2009)": "avatar",
+    "Lord of the Rings : The Return of the King": "lordoftherings",
+    "The Lord of the Rings : The Two Towers": "lordoftherings2",
+    "The Lord of the Rings : The Return of the King": "lordoftherings3"
+}
 
-with open(f'{movie}.txt') as movieScript:
+movieChosing = True
+
+
+while movieChosing:
+
+    print("Please chose which movie you want to see data on:")
+    
+    for eachItem in movies:
+        print(eachItem)
+        
+    userMovie = input("")
+
+    if userMovie == "":
+        pass
+    else:
+        try:
+            movie = movies[userMovie]
+            movieChosing = False
+        except:
+            print("Uh oh")
+
+
+
+
+with open(f'scripts/{movie}.txt', encoding="utf8") as movieScript:
     script = movieScript.readlines()
 
 
 class SpaghettiLettersMovies:
     def __init__(self, letterslist, baseLetters, script, movie):
         self.__movie = movie
-        self.__script = script
+        self.__script = script.lower()
         self.__cansList = []
         self.__lettersCounter = {}
         self.__sortedLetters = []
@@ -83,6 +117,8 @@ class SpaghettiLettersMovies:
             if eachAverages >= self.__finalCanAmount:
                 self.__finalCanAmount = eachAverages
 
+        # Data about the movie
+
         print(f"In the movie {self.__movie} there was:")
         for eachLetterCounter in self.__sortedLetters:
             if eachLetterCounter[1] >= self.__highestLetters[1]:
@@ -99,11 +135,13 @@ class SpaghettiLettersMovies:
 {self.__lowestLetters}\n\n""")
         
 
-        print(f"""To write the entire movie script of {self.__movie} you would need:\n
+        print(f"""To write the entire movie script of {self.__movie} you would need:
+
 {round(self.__finalCanAmount)}
 
 Cans of Alphabet Spaghetti!
 """)
+
         
 
 spaghettis = SpaghettiLettersMovies(
