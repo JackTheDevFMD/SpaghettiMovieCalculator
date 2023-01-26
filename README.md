@@ -12,7 +12,6 @@ A calculator to figure out how many cans of alphabet spaghetti it would take to 
 1. Download a movie script and create a new .txt file with the movie script inside,
 2. Add the movie name into the movies dictionary one line 35, the format should be:
 
-| Movies |
 | Title | File Name |
 | ------ | ---- |
 | The Bee Movie | BeeMovie
