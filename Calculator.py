@@ -5574,7 +5574,6 @@ class SpaghettiLettersMovies:
     def __init__(self, letterslist, baseLetters):
         self.finalCanAmount = 0
         self.cansList = []
-        self.posIndex = None
         self.lettersCounter = {}
         self.sortedLetters = []
         self.letters = letterslist
@@ -5594,11 +5593,13 @@ class SpaghettiLettersMovies:
 
         self.sortedLetters = sorted(self.lettersCounter.items())
 
-        # Loop through each item, divide it by the amount possible in one can. Round up math.trunk
+        # Loop through each item, divide it by the amount possible in one can. Append to list. 
 
         for eachItem in range(0, len(self.sortedLetters)):
             self.cansList.append((self.sortedLetters[eachItem][1] / (self.letters[self.sortedLetters[eachItem][0]])))
-
+        
+        # Loop through all the letters and find the highest number of cans required. This will be our final answer!
+        
         for eachAverages in self.cansList:
             if eachAverages >= self.finalCanAmount:
                 self.finalCanAmount = eachAverages
