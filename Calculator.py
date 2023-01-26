@@ -38,17 +38,18 @@ with open(f'{movie}.txt') as movieScript:
     script = movieScript.readlines()
 
 
-
 class SpaghettiLettersMovies:
     def __init__(self, letterslist, baseLetters, script, movie):
         self.__movie = movie
         self.__script = script
-        self.__finalCanAmount = 0
         self.__cansList = []
         self.__lettersCounter = {}
         self.__sortedLetters = []
         self.__letters = letterslist
         self.__baseLetters = list(baseLetters)
+        self.__finalCanAmount = 0
+        self.__highestLetters = ('a', 0)
+        self.__lowestLetters = ('a', 10000)
 
     def calculateCans(self):
 
@@ -61,9 +62,9 @@ class SpaghettiLettersMovies:
                     self.__lettersCounter[eachLetter] = 1
                 else:
                     self.__lettersCounter[eachLetter] += 1
-            else:
-                pass
 
+        # Sorts list into alphabetical order according to the items in
+        # self.__lettersCounter
         self.__sortedLetters = sorted(self.__lettersCounter.items())
 
         # Loop through each item, divide it by the amount possible in one can.
@@ -82,12 +83,28 @@ class SpaghettiLettersMovies:
             if eachAverages >= self.__finalCanAmount:
                 self.__finalCanAmount = eachAverages
 
-        print(f"""To write the entire movie script of {self.__movie} you would need:
+        print(f"In the movie {self.__movie} there was:")
+        for eachLetterCounter in self.__sortedLetters:
+            if eachLetterCounter[1] >= self.__highestLetters[1]:
+                self.__highestLetters = eachLetterCounter
+                
+            if eachLetterCounter[1] < self.__lowestLetters[1]:
+                self.__lowestLetters = eachLetterCounter
+                
+            print(f"{eachLetterCounter[0]} : {eachLetterCounter[1]}")
 
+        print(f"""\n\nThe most letters in the script is: \n
+{self.__highestLetters}\n\n""")
+        print(f"""The least amount of letters in the script is: \n
+{self.__lowestLetters}\n\n""")
+        
+
+        print(f"""To write the entire movie script of {self.__movie} you would need:\n
 {round(self.__finalCanAmount)}
 
 Cans of Alphabet Spaghetti!
 """)
+        
 
 spaghettis = SpaghettiLettersMovies(
     letterslist=letters,
