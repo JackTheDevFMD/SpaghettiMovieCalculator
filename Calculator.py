@@ -1,6 +1,20 @@
+## CHANGE ME ##
+movies = {
+    # Name of the movie | Movie file name in /scripts/
+    "The Bee Movie": "BeeMovie",
+    "The IrishMan": "irish",
+    "John Wick (2014)": "JohnWick",
+    "The wolf of Wall Street": "wolf",
+    "The batman": "batman",
+    "Avatar (2009)": "avatar",
+    "Lord of the Rings : The Return of the King": "lordoftherings",
+    "The Lord of the Rings : The Two Towers": "lordoftherings2",
+    "The Lord of the Rings : The Return of the King": "lordoftherings3"
+}
 
-# All the letters from the spaghetti can.
+## DON'T CHANGE ME ##
 
+movieChosing = True
 letters = {
     "a": 25,
     "b": 25,
@@ -30,23 +44,10 @@ letters = {
     "y": 38,
     "z": 41,
 }
-
 baseLetters = 'abcdefghijklmnopqrstuvwxyz'
-movies = {
-    "The Bee Movie": "BeeMovie",
-    "The IrishMan": "irish",
-    "John Wick (2014)": "JohnWick",
-    "The wolf of Wall Street": "wolf",
-    "The batman": "batman",
-    "Avatar (2009)": "avatar",
-    "Lord of the Rings : The Return of the King": "lordoftherings",
-    "The Lord of the Rings : The Two Towers": "lordoftherings2",
-    "The Lord of the Rings : The Return of the King": "lordoftherings3"
-}
-
-movieChosing = True
 
 
+# Menu System
 while movieChosing:
 
     print("Please chose which movie you want to see data on:")
@@ -67,12 +68,18 @@ while movieChosing:
 
 
 
-
-with open(f'scripts/{movie}.txt', encoding="utf8") as movieScript:
-    script = movieScript.readlines()
-
+try:
+    with open(f'scripts/{movie}.txt', encoding="utf8") as movieScript:
+        script = movieScript.readlines()
+except:
+    print("""Something went wrong while reading the file. Please ensure the file is:
+ - Present in the /scripts/ folder,
+ - Has a valid script in it
+""")
 
 class SpaghettiLettersMovies:
+    # Class to figure out how many spaghetti cans you'd need to write a movie 
+    # script
     def __init__(self, letterslist, baseLetters, script, movie):
         self.__movie = movie
         self.__script = script.lower()
@@ -87,62 +94,68 @@ class SpaghettiLettersMovies:
 
     def calculateCans(self):
 
-        # Figure out how many cans of spaghetti's it would need to write this
-        # script
-        
-        for eachLetter in self.__script:
-            if eachLetter in self.__baseLetters:
-                if eachLetter not in self.__lettersCounter:
-                    self.__lettersCounter[eachLetter] = 1
-                else:
-                    self.__lettersCounter[eachLetter] += 1
+        try:
 
-        # Sorts list into alphabetical order according to the items in
-        # self.__lettersCounter
-        self.__sortedLetters = sorted(self.__lettersCounter.items())
+            # Figure out how many cans of spaghetti's it would need to write this
+            # script
+            
+            for eachLetter in self.__script:
+                if eachLetter in self.__baseLetters:
+                    if eachLetter not in self.__lettersCounter:
+                        self.__lettersCounter[eachLetter] = 1
+                    else:
+                        self.__lettersCounter[eachLetter] += 1
 
-        # Loop through each item, divide it by the amount possible in one can.
-        # Append to list. 
+            # Sorts list into alphabetical order according to the items in
+            # self.__lettersCounter
+            self.__sortedLetters = sorted(self.__lettersCounter.items())
 
-        for eachItem in range(0, len(self.__sortedLetters)):
-            self.__cansList.append((
-                self.__sortedLetters[eachItem][1] /
-                (self.__letters[self.__sortedLetters[eachItem][0]])
-            ))
-        
-        # Loop through all the letters and find the highest number of cans
-        # required. This will be our final answer!
-        
-        for eachAverages in self.__cansList:
-            if eachAverages >= self.__finalCanAmount:
-                self.__finalCanAmount = eachAverages
+            # Loop through each item, divide it by the amount possible in one can.
+            # Append to list. 
 
-        # Data about the movie
+            for eachItem in range(0, len(self.__sortedLetters)):
+                self.__cansList.append((
+                    self.__sortedLetters[eachItem][1] /
+                    (self.__letters[self.__sortedLetters[eachItem][0]])
+                ))
+            
+            # Loop through all the letters and find the highest number of cans
+            # required. This will be our final answer!
+            
+            for eachAverages in self.__cansList:
+                if eachAverages >= self.__finalCanAmount:
+                    self.__finalCanAmount = eachAverages
 
-        print(f"In the movie {self.__movie} there was:")
-        for eachLetterCounter in self.__sortedLetters:
-            if eachLetterCounter[1] >= self.__highestLetters[1]:
-                self.__highestLetters = eachLetterCounter
-                
-            if eachLetterCounter[1] < self.__lowestLetters[1]:
-                self.__lowestLetters = eachLetterCounter
-                
-            print(f"{eachLetterCounter[0]} : {eachLetterCounter[1]}")
+            # Data about the movie
 
-        print(f"""\n\nThe most letters in the script is: \n
+            print(f"In the movie {self.__movie} there was:")
+            for eachLetterCounter in self.__sortedLetters:
+                if eachLetterCounter[1] >= self.__highestLetters[1]:
+                    self.__highestLetters = eachLetterCounter
+                    
+                if eachLetterCounter[1] < self.__lowestLetters[1]:
+                    self.__lowestLetters = eachLetterCounter
+                    
+                print(f"{eachLetterCounter[0]} : {eachLetterCounter[1]}")
+
+            print(f"""\n\nThe most letters in the script is: \n
 {self.__highestLetters}\n\n""")
-        print(f"""The least amount of letters in the script is: \n
+            print(f"""The least amount of letters in the script is: \n
 {self.__lowestLetters}\n\n""")
-        
+            
 
-        print(f"""To write the entire movie script of {self.__movie} you would need:
+            print(f"""To write the entire movie script of {self.__movie} you would need:
 
 {round(self.__finalCanAmount)}
 
 Cans of Alphabet Spaghetti!
-""")
+    """)
 
-        
+        except:
+            print("""Something went wrong while getting the information on cans
+of spaghetti. Please contact JackTheDev on GitHub.
+            """)
+       
 
 spaghettis = SpaghettiLettersMovies(
     letterslist=letters,
